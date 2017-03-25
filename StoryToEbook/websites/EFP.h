@@ -2,9 +2,9 @@
 
 #include "Website.h"
 
-namespace Wattpad {
+namespace EFP {
 
 QStringList downloadStoryInfo(QString url);
 bool downloadChapter(QStringList chapterUrls, int chapterIndex);
 
-} // namespace Wattpad
+} // namespace EFP
