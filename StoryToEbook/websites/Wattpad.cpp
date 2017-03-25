@@ -4,14 +4,13 @@
 
 QStringList Wattpad::downloadStoryInfo(QString url) {
 	QStringList list;
-	if (url.startsWith("https://www.wattpad.com/") && url[24].isDigit()) {
+	if (url[24].isDigit()) {
 		url = MyCurl::urlToString(url);
 		if (!url.contains("data-story-id=\"")) {
 			return list;
 		}
 		url = MyUtils::substring(url, "data-story-id=\"", "\"");
 		url = "https://www.wattpad.com/story/" + url + "/parts";
-		std::cout << url.toStdString() << std::endl;
 	}
 	else if (!url.startsWith("https://www.wattpad.com/story/")) {
 		return list;
@@ -24,6 +23,7 @@ QStringList Wattpad::downloadStoryInfo(QString url) {
 
 	if (!caps.isEmpty()) {
 		Website::intro = (MyUtils::substring(caps, "<h2 class=\"description\"><pre>", "</pre>")).trimmed();
+		Website::intro = "<div style='text-align:justify'><p>" + Website::intro.replace("\n", "</p><p>") + "</p></div>";
 		Website::title = (MyUtils::substring(caps, "<h1>", "</h1>")).trimmed();
 		Website::title = Website::title.replace("&#x27;", "'");
 
@@ -64,7 +64,7 @@ bool Wattpad::downloadChapter(QStringList chapterUrls, int chapterIndex)
 			break;
 	}
 	s = MyUtils::advancedReplace(s, "<p data-p-id=", ">", "<p>");
-	s = s.replace("							<p", "<p");
-	Website::story += s + "\n\n\n";
+	s = s.replace("                            <p", "<p");
+	Website::story += s + "\n</div>\n";
 	return true;
 }

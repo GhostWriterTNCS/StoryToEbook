@@ -1,7 +1,7 @@
 ﻿#include "MyCurl.h"
 
 namespace MyCurl {
-	QString html; //will hold the url's contents
+	std::string html; //will hold the url's contents
 	size_t writeCallback(char* buf, size_t size, size_t nmemb, void* up) { //callback must have this declaration buf is a pointer to the data
 																		   //that curl has for us, size*nmemb is the size of the buffer
 		for (int c = 0; c<size*nmemb; c++) {
@@ -23,7 +23,7 @@ namespace MyCurl {
 		curl_easy_perform(curl);
 		curl_easy_cleanup(curl);
 		curl_global_cleanup();
-		return html;
+		return QString::fromLocal8Bit(html.c_str());
 	}
 
 	QString decodeHtml(QString html) {
@@ -41,7 +41,7 @@ namespace MyCurl {
 		html = html.replace("&#39;", "'");
 		html = html.replace("&#039;", "'");
 		html = html.replace("&#333;", "ō");
-		html = html.replace("&#8730;", "v");
+		html = html.replace("&#8730;", "√");
 		return html;
 	}
 }

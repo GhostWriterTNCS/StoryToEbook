@@ -2,6 +2,7 @@
 #include <iostream>
 #include "MyCurl.h"
 #include "MyUtils.h"
+#include "Website.h"
 #include <QDir>
 #include <QString>
 #include <QTextStream>
@@ -9,10 +10,6 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QProgressDialog>
-
-//Websites:
-#include "Website.h"
-#include "Wattpad.h"
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
@@ -31,25 +28,29 @@ void MainWindow::on_downloadAndConvert_clicked()
 	}
 
 	QString website;
-	if (url.startsWith("https://www.wattpad.com/")) {
-		website = "Wattpad";
-	}
-
-	ui.statusBar->showMessage("Download story info...");
-	QStringList list = Website::downloadStoryInfo(website, url);
+	ui.statusBar->showMessage("Downloading story info...");
+	QStringList list = Website::downloadStoryInfo(url);
 	if (list.size() == 0) {
 		QMessageBox::warning(this, "Error", "I can't download the story.");
 		return;
 	}
 
+	QString title = Website::title;
+	if (title.length() > 30)
+		title = title.mid(0, 30) + "...";
+
 	Website::initializeStory();
 	for (int i = 0; i < list.size(); i++) {
-		ui.statusBar->showMessage("Download chapter " + QString::number(i + 1) + " of " + QString::number(list.size()) + "...");
-		if(!Website::downloadChapter(website, list, i))
+		if (list.size() > 1)
+			ui.statusBar->showMessage(title + " | Downloading chapter " + QString::number(i + 1) + " of " + QString::number(list.size()) + "...");
+		else
+			ui.statusBar->showMessage(title + " | Downloading story...");
+
+		if(!Website::downloadChapter(list, i))
 			QMessageBox::warning(this, "Error", "I can't download capther " + QString::number(i + 1) + ".");
 	}
 
-	ui.statusBar->showMessage("Creating file...");
+	ui.statusBar->showMessage(title + " | Creating file...");
 	QString filename = Website::createEbook(ui.comboBox->currentText().trimmed(), ui.checkBox->isChecked(), ui.currentDir->displayText().trimmed());
 
 	ui.statusBar->clearMessage();

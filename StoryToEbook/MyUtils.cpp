@@ -26,12 +26,14 @@ namespace MyUtils
 		return filename;
 	}
 
-	void writeFile(QString filename, QString content) {
+	bool writeFile(QString filename, QString content) {
 		QFile file(filename);
-		if (file.open(QIODevice::ReadWrite)) {
+		if (file.open(QFile::WriteOnly | QFile::Truncate)) {
 			QTextStream stream(&file);
 			stream << content;
+			return true;
 		}
+		return false;
 	}
 
 	QString substring(QString str, QString start, QString end) {
