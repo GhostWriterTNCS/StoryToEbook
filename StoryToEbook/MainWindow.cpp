@@ -1,5 +1,4 @@
 #include "MainWindow.h"
-#include <iostream>
 #include "MyCurl.h"
 #include "MyUtils.h"
 #include "Website.h"
