@@ -1,6 +1,6 @@
-#include "Wattpad.h"
 #include "MyCurl.h"
 #include "MyUtils.h"
+#include "Wattpad.h"
 
 QStringList Wattpad::downloadStoryInfo(QString url) {
 	QStringList list;
@@ -11,8 +11,7 @@ QStringList Wattpad::downloadStoryInfo(QString url) {
 		}
 		url = MyUtils::substring(url, "data-story-id=\"", "\"");
 		url = "https://www.wattpad.com/story/" + url + "/parts";
-	}
-	else if (!url.startsWith("https://www.wattpad.com/story/")) {
+	} else if (!url.startsWith("https://www.wattpad.com/story/")) {
 		return list;
 	}
 
@@ -22,8 +21,10 @@ QStringList Wattpad::downloadStoryInfo(QString url) {
 	QString caps = MyCurl::urlToString(url);
 
 	if (!caps.isEmpty()) {
-		Website::intro = (MyUtils::substring(caps, "<h2 class=\"description\"><pre>", "</pre>")).trimmed();
-		Website::intro = "<div style='text-align:justify'><p>" + Website::intro.replace("\n", "</p><p>") + "</p></div>";
+		Website::intro =
+			(MyUtils::substring(caps, "<h2 class=\"description\"><pre>", "</pre>")).trimmed();
+		Website::intro = "<div style='text-align:justify'><p>" +
+						 Website::intro.replace("\n", "</p><p>") + "</p></div>";
 		Website::title = (MyUtils::substring(caps, "<h1>", "</h1>")).trimmed();
 		Website::title = Website::title.replace("&#x27;", "'");
 
@@ -44,10 +45,10 @@ QStringList Wattpad::downloadStoryInfo(QString url) {
 	return list;
 }
 
-bool Wattpad::downloadChapter(QStringList chapterUrls, int chapterIndex)
-{
+bool Wattpad::downloadChapter(QStringList chapterUrls, int chapterIndex) {
 	QString temp = MyCurl::urlToString(chapterUrls[chapterIndex]);
-	QString s = "<h1 style=\"text-align: center;\">" + (MyUtils::substring(temp, "<h2>", "</h2>")).trimmed() + "</h1>\n";
+	QString s = "<h1 style=\"text-align: center;\">" +
+				(MyUtils::substring(temp, "<h2>", "</h2>")).trimmed() + "</h1>\n";
 	int p = 2;
 	while (temp.contains("data-page-number=")) {
 		temp = MyUtils::substring(temp, "data-page-number=", "</div>");
@@ -56,11 +57,12 @@ bool Wattpad::downloadChapter(QStringList chapterUrls, int chapterIndex)
 		}
 		s += MyUtils::substring(temp, "<pre>", "</pre>") + "\n";
 		if (!MyUtils::substring(temp, "", "<pre>").contains("last-page")) {
-			std::cout << "\n\n" + (chapterUrls[chapterIndex] + "/page/" + QString::number(p)).toStdString() << std::endl;
+			std::cout << "\n\n" + (chapterUrls[chapterIndex] + "/page/" + QString::number(p))
+									  .toStdString()
+					  << std::endl;
 			temp = MyCurl::urlToString(chapterUrls[chapterIndex] + "/page/" + QString::number(p));
 			p++;
-		}
-		else
+		} else
 			break;
 	}
 	s = MyUtils::advancedReplace(s, "<p data-p-id=", ">", "<p>");
