@@ -1,9 +1,9 @@
-#include "Website.h"
+#include <QFileInfo>
 #include "MyUtils.h"
 #include "Wattpad.h"
-#include <QFileInfo>
+#include "Website.h"
 
-//Websites:
+// Websites:
 #include "EFP.h"
 #include "Wattpad.h"
 
@@ -13,8 +13,7 @@ QString Website::intro;
 QString Website::cover;
 QString Website::story;
 
-QStringList Website::downloadStoryInfo(QString url)
-{
+QStringList Website::downloadStoryInfo(QString url) {
 	if (url.startsWith("http://www.efpfanfic.net/"))
 		return EFP::downloadStoryInfo(url);
 
@@ -24,8 +23,7 @@ QStringList Website::downloadStoryInfo(QString url)
 	return QStringList();
 }
 
-bool Website::downloadChapter(QStringList chapterUrls, int chapterIndex)
-{
+bool Website::downloadChapter(QStringList chapterUrls, int chapterIndex) {
 	if (chapterUrls[0].startsWith("http://www.efpfanfic.net/"))
 		return EFP::downloadChapter(chapterUrls, chapterIndex);
 
@@ -43,8 +41,7 @@ void Website::initializeStory() {
 	Website::story += Website::intro + "\n";
 }
 
-QString Website::createEbook(QString extension, bool downloadCover, QString folder)
-{
+QString Website::createEbook(QString extension, bool downloadCover, QString folder) {
 	if (!folder.isEmpty()) {
 		folder = folder + "\\";
 		folder = folder.replace("/", "\\");
@@ -53,8 +50,7 @@ QString Website::createEbook(QString extension, bool downloadCover, QString fold
 	Website::title = MyUtils::validateFilename(Website::title);
 	if (extension == "html") {
 		MyUtils::writeFile(Website::title + ".html", Website::story);
-	}
-	else {
+	} else {
 		int i = 0;
 		QFile file;
 		while (file.exists(QString::number(i) + ".htm"))
@@ -64,12 +60,14 @@ QString Website::createEbook(QString extension, bool downloadCover, QString fold
 		if (downloadCover && !Website::cover.isEmpty()) {
 			Website::cover = Website::cover.replace(" ", "%20");
 			Website::cover = "--cover=" + Website::cover;
-		}
-		else {
+		} else {
 			Website::cover = "";
 		}
 
-		system(("ebook-convert " + QString::number(i) + ".htm \"" + folder + Website::title + "." + extension + "\" --authors=\"" + Website::author + "\" " + cover).toStdString().c_str());
+		system(("ebook-convert " + QString::number(i) + ".htm \"" + folder + Website::title + "." +
+				extension + "\" --authors=\"" + Website::author + "\" " + cover)
+				   .toStdString()
+				   .c_str());
 		file.remove(QString::number(i) + ".htm");
 	}
 	return folder + Website::title + "." + extension;

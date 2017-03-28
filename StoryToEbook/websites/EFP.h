@@ -2,8 +2,9 @@
 
 #include "Website.h"
 
-namespace EFP
-{
-	QStringList downloadStoryInfo(QString url);
-	bool downloadChapter(QStringList chapterUrls, int chapterIndex);
-};
+namespace EFP {
+
+QStringList downloadStoryInfo(QString url);
+bool downloadChapter(QStringList chapterUrls, int chapterIndex);
+
+} // namespace EFP
