@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Story to ebook</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="MainWindow.qrc">
+    <normaloff>:/MainWindow/Resources/icon.ico</normaloff>:/MainWindow/Resources/icon.ico</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
@@ -37,7 +41,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="comboBox"/>
+         <widget class="QComboBox" name="formatComboBox"/>
         </item>
        </layout>
       </item>
@@ -55,7 +59,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBox">
+       <widget class="QCheckBox" name="downloadCoverCheckBox">
         <property name="text">
          <string>Download cover</string>
         </property>
@@ -86,7 +90,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="currentDir"/>
+       <widget class="QLineEdit" name="directoryLineEdit"/>
       </item>
       <item>
        <widget class="QToolButton" name="directoryButton">
@@ -115,6 +119,8 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="MainWindow.qrc"/>
+ </resources>
  <connections/>
 </ui>
