@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QSettings>
 #include <QtWidgets/QMainWindow>
 #include "ui_MainWindow.h"
 
@@ -10,6 +11,7 @@ public:
 	MainWindow(QWidget* parent = Q_NULLPTR);
 	~MainWindow();
 	Ui::MainWindowClass ui;
+	QSettings* settings;
 
 private slots:
 	void on_downloadAndConvert_clicked();

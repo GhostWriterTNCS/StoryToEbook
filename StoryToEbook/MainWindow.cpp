@@ -11,13 +11,23 @@
 #include "Website.h"
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
+	settings = new QSettings("settings.ini", QSettings::IniFormat);
+
 	ui.setupUi(this);
-	ui.comboBox->addItems({"epub", "mobi", "azw3", "pdf", "html"});
-	ui.currentDir->setText(QDir::currentPath());
+	ui.formatComboBox->addItems({"epub", "mobi", "azw3", "pdf", "html"});
+	ui.formatComboBox->setCurrentIndex(
+		ui.formatComboBox->findText(settings->value("format", "epub").toString()));
+
+	ui.downloadCoverCheckBox->setChecked(settings->value("downloadCover", false).toBool());
+
+	ui.directoryLineEdit->setText(settings->value("directory", QDir::currentPath()).toString());
 }
 
 MainWindow::~MainWindow() {
-	// save options
+	settings->setValue("format", ui.formatComboBox->currentText());
+	settings->setValue("downloadCover", ui.downloadCoverCheckBox->isChecked());
+	settings->setValue("directory", ui.directoryLineEdit->displayText().trimmed());
+	settings->sync();
 }
 
 void MainWindow::on_downloadAndConvert_clicked() {
@@ -53,9 +63,9 @@ void MainWindow::on_downloadAndConvert_clicked() {
 	}
 
 	ui.statusBar->showMessage(title + " | Creating file...");
-	QString filename =
-		Website::createEbook(ui.comboBox->currentText().trimmed(), ui.checkBox->isChecked(),
-							 ui.currentDir->displayText().trimmed());
+	QString filename = Website::createEbook(ui.formatComboBox->currentText().trimmed(),
+											ui.downloadCoverCheckBox->isChecked(),
+											ui.directoryLineEdit->displayText().trimmed());
 
 	ui.statusBar->clearMessage();
 	QMessageBox::information(this, "Ok",
@@ -67,8 +77,8 @@ void MainWindow::on_downloadAndConvert_clicked() {
 
 void MainWindow::on_directoryButton_clicked() {
 	QString folder = QFileDialog::getExistingDirectory(
-		this, tr("Open Directory"), ui.currentDir->displayText(),
+		this, tr("Open Directory"), ui.directoryLineEdit->displayText(),
 		QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 	if (!folder.isEmpty())
-		ui.currentDir->setText(folder);
+		ui.directoryLineEdit->setText(folder);
 }
