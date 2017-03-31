@@ -1,0 +1,3 @@
+[submodule "StoryToEbook/MyCurl"]
+	path = StoryToEbook/MyCurl
+	url = https://github.com/GhostWriterTNCS/MyCurl.git

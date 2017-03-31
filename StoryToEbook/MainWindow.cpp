@@ -6,8 +6,7 @@
 #include <QString>
 #include <QTextStream>
 #include "MainWindow.h"
-#include "MyCurl.h"
-#include "MyUtils.h"
+#include "MyQtUtils.h"
 #include "Website.h"
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {

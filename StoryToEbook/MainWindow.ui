@@ -22,7 +22,7 @@
     <item>
      <widget class="QLabel" name="label_3">
       <property name="text">
-       <string>Paste here the url of the story or of a chapter</string>
+       <string>Paste here the url of the story or of a chapter:</string>
       </property>
      </widget>
     </item>
