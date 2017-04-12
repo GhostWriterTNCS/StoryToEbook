@@ -2,9 +2,10 @@
 
 #include "Website.h"
 
-namespace Wattpad {
+class Wattpad : public Website {
 
-QStringList downloadStoryInfo(QString url);
-bool downloadChapter(QStringList chapterUrls, int chapterIndex);
+public:
+	void downloadStoryInfo(QString url);
+	bool downloadChapter(int chapterIndex);
 
-} // namespace Wattpad
+}; // class Wattpad

@@ -2,6 +2,7 @@
 
 #include <QSettings>
 #include <QtWidgets/QMainWindow>
+#include "Website.h"
 #include "ui_MainWindow.h"
 
 class MainWindow : public QMainWindow {

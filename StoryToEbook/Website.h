@@ -1,18 +1,25 @@
 #pragma once
 
 #include <QString>
+#include <QStringList>
 
-namespace Website {
+class Website {
 
-QStringList downloadStoryInfo(QString url);
-void initializeStory();
-bool downloadChapter(QStringList chapterUrls, int chapterIndex);
-QString createEbook(QString extension, bool downloadCover, QString folder);
+public:
+	QString title;
+	QString author;
+	QString intro;
+	QString cover;
+	QString story;
+	QStringList list;
 
-extern QString title;
-extern QString author;
-extern QString intro;
-extern QString cover;
-extern QString story;
+	virtual void downloadStoryInfo(QString url) {
+		return;
+	};
+	void initializeStory();
+	virtual bool downloadChapter(int chapterIndex) {
+		return false;
+	};
+	QString createEbook(QString extension, bool downloadCover, QString folder);
 
-} // namespace Website
+}; // class Website

@@ -3,36 +3,6 @@
 #include "Wattpad.h"
 #include "Website.h"
 
-// Websites:
-#include "EFP.h"
-#include "Wattpad.h"
-
-QString Website::title;
-QString Website::author;
-QString Website::intro;
-QString Website::cover;
-QString Website::story;
-
-QStringList Website::downloadStoryInfo(QString url) {
-	if (url.startsWith("http://www.efpfanfic.net/"))
-		return EFP::downloadStoryInfo(url);
-
-	if (url.startsWith("https://www.wattpad.com/"))
-		return Wattpad::downloadStoryInfo(url);
-
-	return QStringList();
-}
-
-bool Website::downloadChapter(QStringList chapterUrls, int chapterIndex) {
-	if (chapterUrls[0].startsWith("http://www.efpfanfic.net/"))
-		return EFP::downloadChapter(chapterUrls, chapterIndex);
-
-	if (chapterUrls[0].startsWith("https://www.wattpad.com/"))
-		return Wattpad::downloadChapter(chapterUrls, chapterIndex);
-
-	return false;
-}
-
 void Website::initializeStory() {
 	Website::story = "<html><head><meta content=\"text/html; charset=utf-8\"></head>\n";
 	Website::story += "<title>" + Website::title + "</title>\n";

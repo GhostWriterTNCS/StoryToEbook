@@ -1,17 +1,16 @@
 #include "MyQtUtils.h"
 #include "Wattpad.h"
 
-QStringList Wattpad::downloadStoryInfo(QString url) {
-	QStringList list;
+void Wattpad::downloadStoryInfo(QString url) {
 	if (url[24].isDigit()) {
 		url = MyQtUtils::urlToQString(url);
 		if (!url.contains("data-story-id=\"")) {
-			return list;
+			return;
 		}
 		url = MyQtUtils::substring(url, "data-story-id=\"", "\"");
 		url = "https://www.wattpad.com/story/" + url + "/parts";
 	} else if (!url.startsWith("https://www.wattpad.com/story/")) {
-		return list;
+		return;
 	}
 
 	if (!url.contains("/parts")) {
@@ -40,13 +39,13 @@ QStringList Wattpad::downloadStoryInfo(QString url) {
 		for (int i = 0; i < list.size(); i++) {
 			list[i] = "https://www.wattpad.com" + MyQtUtils::substring(list[i], "<a href=\"", "\"");
 		}
-		return list;
+		return;
 	}
-	return list;
+	return;
 }
 
-bool Wattpad::downloadChapter(QStringList chapterUrls, int chapterIndex) {
-	QString temp = MyQtUtils::urlToQString(chapterUrls[chapterIndex]);
+bool Wattpad::downloadChapter(int chapterIndex) {
+	QString temp = MyQtUtils::urlToQString(list[chapterIndex]);
 	QString s = "<h1 style=\"text-align: center;\">" +
 				(MyQtUtils::substring(temp, "<h2>", "</h2>")).trimmed() + "</h1>\n";
 	int p = 2;
@@ -57,8 +56,7 @@ bool Wattpad::downloadChapter(QStringList chapterUrls, int chapterIndex) {
 		}
 		s += MyQtUtils::substring(temp, "<pre>", "</pre>") + "\n";
 		if (!MyQtUtils::substring(temp, "", "<pre>").contains("last-page")) {
-			temp =
-				MyQtUtils::urlToQString(chapterUrls[chapterIndex] + "/page/" + QString::number(p));
+			temp = MyQtUtils::urlToQString(list[chapterIndex] + "/page/" + QString::number(p));
 			p++;
 		} else
 			break;

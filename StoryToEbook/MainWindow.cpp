@@ -9,6 +9,10 @@
 #include "MyQtUtils.h"
 #include "Website.h"
 
+// Websites:
+#include "EFP.h"
+#include "Wattpad.h"
+
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	settings = new QSettings("settings.ini", QSettings::IniFormat);
 
@@ -36,33 +40,44 @@ void MainWindow::on_downloadAndConvert_clicked() {
 		return;
 	}
 
-	QString website;
 	ui.statusBar->showMessage("Downloading story info...");
-	QStringList list = Website::downloadStoryInfo(url);
-	if (list.size() == 0) {
-		QMessageBox::warning(this, "Error", "I can't download the story.");
+	Website* website;
+	if (url.startsWith("http://www.efpfanfic.net/")) {
+		website = new EFP();
+	} else if (url.startsWith("https://www.wattpad.com/")) {
+		website = new Wattpad();
+	} else {
+		QMessageBox::warning(this, "Error", "Url not valid.");
+		ui.statusBar->clearMessage();
 		return;
 	}
 
-	QString title = Website::title;
+	website->downloadStoryInfo(url);
+	if (website->list.size() == 0) {
+		QMessageBox::warning(this, "Error", "I can't download the story.");
+		ui.statusBar->clearMessage();
+		return;
+	}
+
+	QString title = website->title;
 	if (title.length() > 30)
 		title = title.mid(0, 30) + "...";
 
-	Website::initializeStory();
-	for (int i = 0; i < list.size(); i++) {
-		if (list.size() > 1)
+	website->initializeStory();
+	for (int i = 0; i < website->list.size(); i++) {
+		if (website->list.size() > 1)
 			ui.statusBar->showMessage(title + " | Downloading chapter " + QString::number(i + 1) +
-									  " of " + QString::number(list.size()) + "...");
+									  " of " + QString::number(website->list.size()) + "...");
 		else
 			ui.statusBar->showMessage(title + " | Downloading story...");
 
-		if (!Website::downloadChapter(list, i))
+		if (!website->downloadChapter(i))
 			QMessageBox::warning(this, "Error",
 								 "I can't download capther " + QString::number(i + 1) + ".");
 	}
 
 	ui.statusBar->showMessage(title + " | Creating file...");
-	QString filename = Website::createEbook(ui.formatComboBox->currentText().trimmed(),
+	QString filename = website->createEbook(ui.formatComboBox->currentText().trimmed(),
 											ui.downloadCoverCheckBox->isChecked(),
 											ui.directoryLineEdit->displayText().trimmed());
 

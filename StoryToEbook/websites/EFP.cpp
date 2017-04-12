@@ -1,8 +1,7 @@
 #include "EFP.h"
 #include "MyQtUtils.h"
 
-QStringList EFP::downloadStoryInfo(QString url) {
-	QStringList list;
+void EFP::downloadStoryInfo(QString url) {
 	if (url.contains("sid=")) {
 		QString id = MyQtUtils::substring(url, "sid=", "&");
 		url = "http://www.efpfanfic.net/viewstory.php?sid=" + id;
@@ -21,11 +20,11 @@ QStringList EFP::downloadStoryInfo(QString url) {
 		else if (!Website::intro.isEmpty())
 			list.append("http://www.efpfanfic.net/printsave.php?action=printall&sid=" + id);
 	}
-	return list;
+	return;
 }
 
-bool EFP::downloadChapter(QStringList chapterUrls, int chapterIndex) {
-	QString s = MyQtUtils::urlToQString(chapterUrls[chapterIndex]);
+bool EFP::downloadChapter(int chapterIndex) {
+	QString s = MyQtUtils::urlToQString(list[chapterIndex]);
 	s.replace(s.indexOf("***</p></center><br>") + 21, 15, "");
 	s.replace(s.indexOf("</b></center><br><br>") + 21, 0, Website::intro);
 
