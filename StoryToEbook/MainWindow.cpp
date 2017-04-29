@@ -6,7 +6,7 @@
 #include <QString>
 #include <QTextStream>
 #include "MainWindow.h"
-#include "MyQtUtils.h"
+#include "MyUtils.h"
 #include "Website.h"
 
 // Websites:

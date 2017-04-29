@@ -84,7 +84,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="MyCurl\MyCurl.cpp" />
-    <ClCompile Include="MyQtUtils.cpp" />
+    <ClCompile Include="MyUtils.cpp" />
     <ClCompile Include="QtGeneratedFiles\Debug\moc_MainWindow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -127,7 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyCurl\MyCurl.h" />
-    <ClInclude Include="MyQtUtils.h" />
+    <ClInclude Include="MyUtils.h" />
     <ClInclude Include="QtGeneratedFiles\ui_MainWindow.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Website.h" />

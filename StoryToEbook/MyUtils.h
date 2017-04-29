@@ -4,7 +4,7 @@
 #include <QString>
 #include <QTextStream>
 
-namespace MyQtUtils {
+namespace MyUtils {
 
 QString readFile(QString filename);
 QString validateFilename(QString filename);
@@ -16,4 +16,4 @@ QString advancedReplace(QString str, QString startReplace, QString endReplace, Q
 QString urlToQString(QString url);
 QString redirectedUrlQt(QString url);
 
-} // namespace MyQtUtils
+} // namespace MyUtils

@@ -64,10 +64,10 @@
     <ClCompile Include="websites\EFP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MyQtUtils.cpp">
+    <ClCompile Include="MyCurl\MyCurl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MyCurl\MyCurl.cpp">
+    <ClCompile Include="MyUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,10 +98,10 @@
     <ClInclude Include="websites\EFP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MyQtUtils.h">
+    <ClInclude Include="MyCurl\MyCurl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MyCurl\MyCurl.h">
+    <ClInclude Include="MyUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

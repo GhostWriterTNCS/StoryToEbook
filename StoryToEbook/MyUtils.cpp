@@ -1,7 +1,7 @@
 #include "MyCurl.h"
-#include "MyQtUtils.h"
+#include "MyUtils.h"
 
-namespace MyQtUtils {
+namespace MyUtils {
 
 QString readFile(QString filename) {
 	QFile file(filename);
@@ -65,4 +65,4 @@ QString redirectedUrlQt(QString url) {
 	return QString::fromLocal8Bit(MyCurl::redirectedUrl(url.toStdString()).c_str());
 }
 
-} // namespace MyQtUtils
+} // namespace MyUtils

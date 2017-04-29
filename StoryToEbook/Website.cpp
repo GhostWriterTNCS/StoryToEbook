@@ -1,5 +1,5 @@
 #include <QFileInfo>
-#include "MyQtUtils.h"
+#include "MyUtils.h"
 #include "Wattpad.h"
 #include "Website.h"
 
@@ -17,15 +17,15 @@ QString Website::createEbook(QString extension, bool downloadCover, QString fold
 		folder = folder.replace("/", "\\");
 	}
 
-	Website::title = MyQtUtils::validateFilename(Website::title);
+	Website::title = MyUtils::validateFilename(Website::title);
 	if (extension == "html") {
-		MyQtUtils::writeFile(Website::title + ".html", Website::story);
+		MyUtils::writeFile(Website::title + ".html", Website::story);
 	} else {
 		int i = 0;
 		QFile file;
 		while (file.exists(QString::number(i) + ".htm"))
 			i++;
-		MyQtUtils::writeFile(QString::number(i) + ".htm", Website::story);
+		MyUtils::writeFile(QString::number(i) + ".htm", Website::story);
 
 		if (downloadCover && !Website::cover.isEmpty()) {
 			Website::cover = Website::cover.replace(" ", "%20");
