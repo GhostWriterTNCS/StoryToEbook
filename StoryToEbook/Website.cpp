@@ -35,9 +35,9 @@ QString Website::createEbook(QString extension, bool downloadCover, QString fold
 		}
 
 		system(("ebook-convert " + QString::number(i) + ".htm \"" + folder + Website::title + "." +
-				extension + "\" --authors=\"" + Website::author + "\" " + cover)
-				   .toStdString()
-				   .c_str());
+			extension + "\" --authors=\"" + Website::author + "\" " + cover)
+			.toStdString()
+			.c_str());
 		file.remove(QString::number(i) + ".htm");
 	}
 	return folder + Website::title + "." + extension;

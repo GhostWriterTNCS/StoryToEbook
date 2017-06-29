@@ -14,7 +14,7 @@ public:
 	Ui::MainWindowClass ui;
 	QSettings* settings;
 
-private slots:
+	private slots:
 	void on_downloadAndConvert_clicked();
 	void on_directoryButton_clicked();
 };

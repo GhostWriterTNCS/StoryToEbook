@@ -22,13 +22,12 @@ void Wattpad::downloadStoryInfo(QString url) {
 		Website::intro =
 			(MyUtils::substring(caps, "<h2 class=\"description\"><pre>", "</pre>")).trimmed();
 		Website::intro = "<div style='text-align:justify'><p>" +
-						 Website::intro.replace("\n", "</p><p>") + "</p></div>";
+			Website::intro.replace("\n", "</p><p>") + "</p></div>";
 		Website::title = (MyUtils::substring(caps, "<h1>", "</h1>")).trimmed();
 		Website::title = Website::title.replace("&#x27;", "'");
 
 		Website::author = MyUtils::substring(caps, "author-info", "</div>");
-		Website::author =
-			(MyUtils::substring(Website::author, "<a href=\"/user/", "\"")).trimmed();
+		Website::author = (MyUtils::substring(Website::author, "<a href=\"/user/", "\"")).trimmed();
 
 		Website::cover = MyUtils::substring(caps, "cover cover-lg", "</div>");
 		Website::cover = MyUtils::substring(Website::cover, "src=\"", "\"");
@@ -47,7 +46,7 @@ void Wattpad::downloadStoryInfo(QString url) {
 bool Wattpad::downloadChapter(int chapterIndex) {
 	QString temp = MyUtils::urlToQString(list[chapterIndex]);
 	QString s = "<h1 style=\"text-align: center;\">" +
-				(MyUtils::substring(temp, "<h2>", "</h2>")).trimmed() + "</h1>\n";
+		(MyUtils::substring(temp, "<h2>", "</h2>")).trimmed() + "</h1>\n";
 	int p = 2;
 	while (temp.contains("data-page-number=")) {
 		temp = MyUtils::substring(temp, "data-page-number=", "</div>");
@@ -63,6 +62,12 @@ bool Wattpad::downloadChapter(int chapterIndex) {
 	}
 	s = MyUtils::advancedReplace(s, "<p data-p-id=", ">", "<p>");
 	s = s.replace("                            <p", "<p");
+
+	QString id = MyUtils::substring(list[chapterIndex], "wattpad.com/", "-");
+	s = s.replace("<h1 style=\"text-align: center;\">",
+		"<h1 style=\"text-align: center;\"><a name=\"" + id + "\"></a><a href=\"#" + id +
+		"\">");
+	s = s.replace("</h1>", "</a></h1>");
 	Website::story += s + "\n</div>\n";
 	return true;
 }

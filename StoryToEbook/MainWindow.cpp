@@ -1,3 +1,4 @@
+#include <QApplication>
 #include <QComboBox>
 #include <QDir>
 #include <QFileDialog>
@@ -5,6 +6,7 @@
 #include <QProgressDialog>
 #include <QString>
 #include <QTextStream>
+#include <QtConcurrent\QtConcurrentRun>
 #include "MainWindow.h"
 #include "MyUtils.h"
 #include "Website.h"
@@ -17,13 +19,15 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	settings = new QSettings("settings.ini", QSettings::IniFormat);
 
 	ui.setupUi(this);
-	ui.formatComboBox->addItems({"epub", "mobi", "azw3", "pdf", "html"});
+	ui.formatComboBox->addItems({ "epub", "mobi", "azw3", "pdf", "html" });
 	ui.formatComboBox->setCurrentIndex(
 		ui.formatComboBox->findText(settings->value("format", "epub").toString()));
 
 	ui.downloadCoverCheckBox->setChecked(settings->value("downloadCover", false).toBool());
 
 	ui.directoryLineEdit->setText(settings->value("directory", QDir::currentPath()).toString());
+
+	connect(this, SIGNAL(finish(bool)), this, SLOT(finished(bool)));
 }
 
 MainWindow::~MainWindow() {
@@ -37,6 +41,7 @@ void MainWindow::on_downloadAndConvert_clicked() {
 	QString url = ui.textEdit->toPlainText().trimmed();
 	if (url.isEmpty()) {
 		QMessageBox::warning(this, "Error", "You didn't insert any url!");
+		ui.statusBar->clearMessage();
 		return;
 	}
 
@@ -60,33 +65,37 @@ void MainWindow::on_downloadAndConvert_clicked() {
 	}
 
 	QString title = website->title;
-	if (title.length() > 30)
-		title = title.mid(0, 30) + "...";
+	if (title.length() > 50)
+		title = title.mid(0, 50) + "...";
 
 	website->initializeStory();
 	for (int i = 0; i < website->list.size(); i++) {
-		if (website->list.size() > 1)
+		if (website->list.size() > 1) {
 			ui.statusBar->showMessage(title + " | Downloading chapter " + QString::number(i + 1) +
-									  " of " + QString::number(website->list.size()) + "...");
-		else
-			ui.statusBar->showMessage(title + " | Downloading story...");
+				" of " + QString::number(website->list.size()) + "...");
+		} else {
+			qApp->processEvents();
+		}
+		qApp->processEvents();
 
-		if (!website->downloadChapter(i))
+		if (!website->downloadChapter(i)) {
 			QMessageBox::warning(this, "Error",
-								 "I can't download capther " + QString::number(i + 1) + ".");
+				"I can't download capther " + QString::number(i + 1) + ".");
+			ui.statusBar->clearMessage();
+			return;
+		}
 	}
 
 	ui.statusBar->showMessage(title + " | Creating file...");
 	QString filename = website->createEbook(ui.formatComboBox->currentText().trimmed(),
-											ui.downloadCoverCheckBox->isChecked(),
-											ui.directoryLineEdit->displayText().trimmed());
+		ui.downloadCoverCheckBox->isChecked(),
+		ui.directoryLineEdit->displayText().trimmed());
 
+	QMessageBox::information(this, "Done",
+		"<p><b>Download and conversion complete!</b></p>File saved as <i>" +
+		filename + "</i>");
+	ui.textEdit->clear();
 	ui.statusBar->clearMessage();
-	QMessageBox::information(this, "Ok",
-							 "<p><b>Download and conversion complete!</b></p>File saved as <i>" +
-								 filename + "</i>",
-							 true);
-	ui.textEdit->setPlainText("");
 }
 
 void MainWindow::on_directoryButton_clicked() {
