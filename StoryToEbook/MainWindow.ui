@@ -20,21 +20,21 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QLabel" name="label_3">
+     <widget class="QLabel" name="pasteHereLabel">
       <property name="text">
        <string>Paste here the url of the story or of a chapter:</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QTextEdit" name="textEdit"/>
+     <widget class="QTextEdit" name="urlTextEdit"/>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="formatLabel">
           <property name="text">
            <string>Convert to:</string>
           </property>
@@ -83,7 +83,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="directoryLabel">
         <property name="text">
          <string>Save to:</string>
         </property>

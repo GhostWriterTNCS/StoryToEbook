@@ -9,12 +9,12 @@ class MainWindow : public QMainWindow {
 	Q_OBJECT
 
 public:
-	MainWindow(QWidget* parent = Q_NULLPTR);
+	MainWindow(int argc, char* argv[], QWidget* parent = Q_NULLPTR);
 	~MainWindow();
 	Ui::MainWindowClass ui;
 	QSettings* settings;
 
-	private slots:
+private slots:
 	void on_downloadAndConvert_clicked();
 	void on_directoryButton_clicked();
 };

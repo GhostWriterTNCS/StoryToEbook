@@ -10,8 +10,7 @@ void EFP::downloadStoryInfo(QString url) {
 		Website::intro = MyUtils::substring(s, "<div id=\"anteprima\">", "</div>");
 		Website::intro = "\n\n<center><p class=\"titolo\">Introduzione<br> *** </p></center>\n<p>" +
 						 Website::intro + "</p><br><br>\n";
-		Website::title =
-			MyUtils::substring(s, "<a href=\"viewstory.php?sid=" + id + "\">", "</a>");
+		Website::title = MyUtils::substring(s, "<a href=\"viewstory.php?sid=" + id + "\">", "</a>");
 
 		if (s.contains("printsave.php?action=printall&sid="))
 			list.append("http://www.efpfanfic.net/printsave.php?action=printall&sid=" + id);
@@ -33,13 +32,15 @@ bool EFP::downloadChapter(int chapterIndex) {
 	Website::author = MyUtils::substring(Website::author, ">");
 
 	s = MyUtils::advancedReplace(s, "</title><table width=\"100%\"", "<center><p class=\"title",
-								   "</title><center><p class=\"title");
+								 "</title><center><p class=\"title");
 	s = s.replace("</td></tr></table>\n<p align=\"right\"><big><a href=\"#top\">Ritorna "
 				  "all'indice</a></big></p><hr>",
 				  "<p align=\"right\"><big><a href=\"#top\">Ritorna all'indice</a></big></p><br "
 				  "style='page-break-before:always;mso-break-type:section-break'>");
 	s = s.replace("***</p></center><br>\n<table><tr><td>", "***</p></center><br>\n");
 	s = s.replace("</p><br><br>\n\n<table><tr><td>", "</p><br><br>\n\n");
+	s = s.replace("<noframes>", "");
+	s = s.replace("</noframes>", "");
 
 	Website::story = "<html><head><meta http-equiv=Content-Type content=\"text/html; "
 					 "charset=windows-1252\"></head>\n" +
