@@ -51,7 +51,7 @@ void MainWindow::on_downloadAndConvert_clicked() {
 
 	ui.statusBar->showMessage("Downloading story info...");
 	Website* website;
-	if (url.startsWith("http://www.efpfanfic.net/")) {
+	if (url.startsWith("https://efpfanfic.net/")) {
 		website = new EFP();
 	} else if (url.startsWith("https://www.wattpad.com/")) {
 		website = new Wattpad();

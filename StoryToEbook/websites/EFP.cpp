@@ -4,7 +4,7 @@
 void EFP::downloadStoryInfo(QString url) {
 	if (url.contains("sid=")) {
 		QString id = MyUtils::substring(url, "sid=", "&");
-		url = "http://www.efpfanfic.net/viewstory.php?sid=" + id;
+		url = "https://efpfanfic.net/viewstory.php?sid=" + id;
 
 		QString s = MyUtils::urlToQString(url);
 		Website::intro = MyUtils::substring(s, "<div id=\"anteprima\">", "</div>");
@@ -13,11 +13,11 @@ void EFP::downloadStoryInfo(QString url) {
 		Website::title = MyUtils::substring(s, "<a href=\"viewstory.php?sid=" + id + "\">", "</a>");
 
 		if (s.contains("printsave.php?action=printall&sid="))
-			list.append("http://www.efpfanfic.net/printsave.php?action=printall&sid=" + id);
+			list.append("https://efpfanfic.net/printsave.php?action=printall&sid=" + id);
 		else if (s.contains("printsave.php?action=printable&sid="))
-			list.append("http://www.efpfanfic.net/printsave.php?action=printable&sid=" + id);
+			list.append("https://efpfanfic.net/printsave.php?action=printable&sid=" + id);
 		else if (!Website::intro.isEmpty())
-			list.append("http://www.efpfanfic.net/printsave.php?action=printall&sid=" + id);
+			list.append("https://efpfanfic.net/printsave.php?action=printall&sid=" + id);
 	}
 	return;
 }
