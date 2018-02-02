@@ -16,7 +16,8 @@
 #include "Wattpad.h"
 
 MainWindow::MainWindow(int argc, char* argv[], QWidget* parent) : QMainWindow(parent) {
-	settings = new QSettings("settings.ini", QSettings::IniFormat);
+	settings = new QSettings(QCoreApplication::applicationDirPath() + "\\settings.ini",
+							 QSettings::IniFormat);
 
 	ui.setupUi(this);
 	ui.formatComboBox->addItems({"epub", "mobi", "azw3", "pdf", "html"});
